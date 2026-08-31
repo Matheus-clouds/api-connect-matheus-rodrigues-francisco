@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evidências — API Connect</title>
+  <style>
+    body { margin: 0; padding: 32px; background: #0f172a; color: #e2e8f0; font: 16px/1.5 system-ui, sans-serif; }
+    h1 { margin: 0 0 6px; } p { margin: 0 0 24px; color: #94a3b8; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    article { padding: 18px; border: 1px solid #334155; border-radius: 12px; background: #172033; }
+    h2 { margin: 0 0 10px; font-size: 18px; } .request { color: #cbd5e1; font-family: ui-monospace, monospace; }
+    .status { display: inline-block; margin: 10px 0; padding: 3px 10px; border-radius: 999px; font-weight: 700; }
+    .success { color: #86efac; background: #14532d; } .failure { color: #fca5a5; background: #7f1d1d; }
+    pre { margin: 6px 0 0; padding: 12px; overflow: auto; border-radius: 8px; background: #020617; color: #dbeafe; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>API Connect — Evidências de testes HTTP</h1>
+  <p>Requisições executadas localmente em <code>http://127.0.0.1:5000/api/usuarios</code>.</p>
+  <main class="grid">
+    <article>
+      <h2>1. Criação com sucesso</h2>
+      <div class="request">POST /api/usuarios</div><div class="status success">201 Created</div>
+      <pre>{
+  "data": {"id": 3, "nome": "Carla Mendes", "email": "carla.mendes@exemplo.com", "idade": 29},
+  "message": "Usuario criado com sucesso."
+}</pre>
+    </article>
+    <article>
+      <h2>2. Falha de validação</h2>
+      <div class="request">POST /api/usuarios</div><div class="status failure">400 Bad Request</div>
+      <pre>{
+  "error": {
+    "status": 400,
+    "message": "Dados de entrada invalidos.",
+    "details": {"email": "Este campo e obrigatorio."}
+  }
+}</pre>
+    </article>
+    <article>
+      <h2>3. Listagem geral</h2>
+      <div class="request">GET /api/usuarios</div><div class="status success">200 OK</div>
+      <pre>{
+  "data": [
+    {"id": 1, "nome": "Ana Souza", "email": "ana.souza@exemplo.com", "idade": 28},
+    {"id": 2, "nome": "Bruno Lima", "email": "bruno.lima@exemplo.com", "idade": 34},
+    {"id": 3, "nome": "Carla Mendes", "email": "carla.mendes@exemplo.com", "idade": 29}
+  ],
+  "total": 3
+}</pre>
+    </article>
+    <article>
+      <h2>4. Busca de ID inexistente</h2>
+      <div class="request">GET /api/usuarios/9999</div><div class="status failure">404 Not Found</div>
+      <pre>{
+  "error": {
+    "status": 404,
+    "message": "Usuario nao encontrado."
+  }
+}</pre>
+    </article>
+  </main>
+</body>
+</html>
